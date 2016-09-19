@@ -3,18 +3,55 @@ import React from 'react';
 import './index.css'
 
 import FoundersForm from '../../components/FoundersForm';
+import DataControls from '../../components/DataControls';
 
 class MainContainer extends React.Component {
 
   state = {
     header: null,
     companies: [],
+    markerLabel: {},
+    latitude: {},
+    longitude: {},
+    geolocation: [],
   }
 
   onFoundersFormSubmit = (header, companies) => {
     this.setState({
       header,
       companies,
+    });
+  }
+
+  onLabelChange = (markerLabel) => {
+    this.setState({
+      markerLabel,
+    });
+  }
+
+  onLatitudeChange = (latitude) => {
+    this.setState({
+      latitude
+    })
+  }
+
+  onLongitudeChange = (longitude) => {
+    this.setState({
+      longitude
+    })
+  }
+
+  onGeolocationChange = (geolocation) => {
+    this.setState({
+      geolocation,
+    });
+  }
+
+  onResetClick = (evt) => {
+    evt.preventDefault();
+    this.setState({
+      header: null,
+      companies: [],
     });
   }
 
@@ -28,7 +65,19 @@ class MainContainer extends React.Component {
             </h1>
           </header>
           { !this.state.header && <FoundersForm onFoundersFormSubmit={this.onFoundersFormSubmit}/>}
-          { this.state.header && <h2>Foi aqui</h2>}
+          { this.state.header && (
+            <div>
+              <DataControls
+                columns={this.state.header}
+                {...this.state}
+                onLabelChange={this.onLabelChange}
+                onLatitudeChange={this.onLatitudeChange}
+                onLongitudeChange={this.onLongitudeChange}
+                onGeolocationChange={this.onGeolocationChange}
+                />
+              <button type="button" onClick={this.onResetClick}>Reset</button>
+            </div>
+          )}
         </div>
         <div className="map-container">
 

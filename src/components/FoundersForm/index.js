@@ -59,7 +59,7 @@ class FoundersForm extends React.Component {
 
     if(companies.length === 0) {
       return this.setState({
-        error: 'Please, verify if you have inputed valid data and selected the correct separator and try again.',
+        error: 'Please, verify if you have inserted valid data and selected the correct separator and try again.',
       });
     }
 

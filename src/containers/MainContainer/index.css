@@ -1,0 +1,8 @@
+.controls-container__header {
+  font-family: 'Passion One', sans-serif;
+  text-transform: uppercase;
+}
+
+.controls-container__header h1 {
+  text-align: center;
+}

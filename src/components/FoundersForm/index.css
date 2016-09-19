@@ -1,0 +1,40 @@
+.founders-form {
+  padding: 0.5em;
+  margin: 0.5em;
+  border: 1px solid #b6e8f5;
+}
+
+.founders-form__control  {
+  margin: 0.2em 0;
+  display: flex;
+}
+
+.founders-form__control label {
+  display: block;
+  flex: 1;
+}
+
+.founders-form__control label + * {
+  margin-left: 1em;
+}
+
+.founders-form__control textarea {
+  padding: 0.5em;
+  border: 1px solid #1e4b5d;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.founders-form__button {
+  border: 1px solid #1e4b5d;
+  padding: 0.5em 1em;
+  background: #b6e8f5;
+  font-size: 0.8em;
+}
+
+.founders-form__error {
+  color: #f96c6c;
+  font-size: 0.8em;
+  margin: 0.5em;
+}

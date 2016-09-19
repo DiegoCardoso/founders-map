@@ -1,3 +1,10 @@
+.controls-container {
+  padding: 0.5em;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
 .controls-container__header {
   font-family: 'Passion One', sans-serif;
   text-transform: uppercase;
@@ -5,4 +12,16 @@
 
 .controls-container__header h1 {
   text-align: center;
+}
+
+.button {
+  border: 1px solid #383838;
+  padding: 0.5em 1em;
+  background: #e6e6e6;
+  font-size: 0.8em;
+}
+
+.button--reset {
+  border-color: #ff6060;
+  background: #ffc0c0;
 }

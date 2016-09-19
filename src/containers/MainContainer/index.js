@@ -10,10 +10,10 @@ class MainContainer extends React.Component {
   state = {
     header: null,
     companies: [],
-    markerLabel: {},
-    latitude: {},
-    longitude: {},
-    geolocation: [],
+    markerLabel: null,
+    latitude: null,
+    longitude: null,
+    geolocation: null,
   }
 
   onFoundersFormSubmit = (header, companies) => {
@@ -75,7 +75,7 @@ class MainContainer extends React.Component {
                 onLongitudeChange={this.onLongitudeChange}
                 onGeolocationChange={this.onGeolocationChange}
                 />
-              <button type="button" onClick={this.onResetClick}>Reset</button>
+              <button type="button" onClick={this.onResetClick} className="button button--reset">Reset</button>
             </div>
           )}
         </div>

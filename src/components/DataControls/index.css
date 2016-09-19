@@ -1,0 +1,39 @@
+.data-controls {
+}
+
+.data-controls__options {
+  display: flex;
+  font-weight: lighter;
+  color: #6e6e6e;
+  line-height: 1.5em;
+  flex-direction: column;
+  margin-left: -0.5em;
+}
+
+.data-controls__option {
+  flex: 1;
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
+}
+
+.Select-control {
+  border-radius: 0;
+}
+
+@media screen and (min-width: 426px) {
+  .data-controls__options {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .data-controls__option {
+    width: 32%;
+    flex: auto;
+    box-sizing: border-box;
+  }
+
+  .data-controls__option + * {
+    margin-left: 0.5em;
+    margin-top: 0;
+  }
+}

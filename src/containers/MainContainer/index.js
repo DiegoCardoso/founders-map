@@ -4,6 +4,7 @@ import './index.css'
 
 import FoundersForm from '../../components/FoundersForm';
 import DataControls from '../../components/DataControls';
+import FilterTable, { FilterTableHeader } from '../../components/FilterTable';
 
 class MainContainer extends React.Component {
 
@@ -75,6 +76,16 @@ class MainContainer extends React.Component {
                 onLongitudeChange={this.onLongitudeChange}
                 onGeolocationChange={this.onGeolocationChange}
                 />
+              <FilterTable
+                rows={this.state.companies}
+                >
+                {this.state.header.map((header, i) => (
+                  <FilterTableHeader
+                    key={i}
+                    {...header}
+                    />
+                ))}
+              </FilterTable>
               <button type="button" onClick={this.onResetClick} className="button button--reset">Reset</button>
             </div>
           )}

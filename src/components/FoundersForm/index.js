@@ -68,6 +68,11 @@ class FoundersForm extends React.Component {
     });
     this.props.onFoundersFormSubmit(head, companies);
   }
+
+  componentDidMount () {
+    this.foundersData.focus();
+  }
+
   render () {
     return (
       <form className="founders-form" onSubmit={this.onSubmit}>
@@ -77,7 +82,7 @@ class FoundersForm extends React.Component {
         <div className="founders-form__control">
             <label>
               Add founder's data in CSV format
-              <textarea name="foundersData"></textarea>
+              <textarea name="foundersData" ref={(ref) => this.foundersData = ref}></textarea>
             </label>
         </div>
         <div className="founders-form__control">

@@ -24,13 +24,16 @@
   width: 100%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  min-height: 120px;
 }
 
 .founders-form__button {
-  border: 1px solid #1e4b5d;
+  border: 1px solid transparent;
   padding: 0.5em 1em;
-  background: #b6e8f5;
-  font-size: 0.8em;
+  background: #1e4b5d;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: bold;
 }
 
 .founders-form__error {

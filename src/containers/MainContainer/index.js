@@ -16,6 +16,8 @@ class MainContainer extends React.Component {
     longitude: null,
     geolocation: null,
     filteredCompanies: [],
+    columnSorted: null,
+    orderingSorted: 'ASC',
   }
 
   onFoundersFormSubmit = (header, companies) => {
@@ -69,6 +71,22 @@ class MainContainer extends React.Component {
     });
   }
 
+  sortColumn = (columnSorted, orderingSorted) => {
+    const filteredCompanies = this.state.filteredCompanies.sort((c1, c2) => {
+      const fieldOne = String(c1[columnSorted]);
+      const fieldTwo = String(c2[columnSorted]);
+
+      const compare = fieldOne.localeCompare(fieldTwo);
+      return orderingSorted === 'ASC' ? compare : -1 * compare;
+    });
+
+    this.setState({
+      filteredCompanies,
+      columnSorted,
+      orderingSorted,
+    });
+  }
+
   render () {
     return (
       <div className="main-container">
@@ -97,6 +115,9 @@ class MainContainer extends React.Component {
                   <FilterTableHeader
                     key={i}
                     {...header}
+                    sortColumn={this.sortColumn}
+                    columnSorted={this.state.columnSorted}
+                    orderingSorted={this.state.orderingSorted}
                     />
                 ))}
               </FilterTable>

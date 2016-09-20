@@ -7,11 +7,44 @@ import './index.css';
 const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
 const siteRegex = /^http[s]?:\/\/.*$/g;
 
-export const FilterTableHeader = ({value, label}) => (
-  <th value={value}>
-    {label}
-  </th>
-);
+export class FilterTableHeader extends React.Component {
+
+  onHeaderClick = () => {
+    let {
+      value,
+      columnSorted,
+      orderingSorted,
+      sortColumn,
+    } = this.props;
+
+    if (value === columnSorted) {
+      orderingSorted = orderingSorted === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      orderingSorted = 'ASC';
+    }
+
+    sortColumn(value, orderingSorted);
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return this.props.value === nextProps.columnSorted || this.props.value === this.props.columnSorted;
+  }
+
+  render () {
+    console.log('RENDERED');
+    const {
+      value,
+      label,
+      columnSorted,
+      orderingSorted
+    } = this.props;
+    return (
+      <th value={value} onClick={this.onHeaderClick}>
+        {label} {value === columnSorted && (orderingSorted === 'ASC' ? '▲' : '▼')}
+      </th>
+    );
+  }
+}
 
 class FilterTableImageCell extends React.Component {
 

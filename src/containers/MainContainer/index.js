@@ -15,12 +15,14 @@ class MainContainer extends React.Component {
     latitude: null,
     longitude: null,
     geolocation: null,
+    filteredCompanies: [],
   }
 
   onFoundersFormSubmit = (header, companies) => {
     this.setState({
       header,
       companies,
+      filteredCompanies: companies,
     });
   }
 
@@ -56,6 +58,17 @@ class MainContainer extends React.Component {
     });
   }
 
+  filterRows = (search) => {
+    const searchRegex = new RegExp(search, 'i');
+    const filteredCompanies = this.state.companies.filter((company) => {
+      return searchRegex.test(company.$rawContent);
+    });
+
+    this.setState({
+      filteredCompanies,
+    });
+  }
+
   render () {
     return (
       <div className="main-container">
@@ -77,7 +90,8 @@ class MainContainer extends React.Component {
                 onGeolocationChange={this.onGeolocationChange}
                 />
               <FilterTable
-                rows={this.state.companies}
+                rows={this.state.filteredCompanies}
+                filterRows={this.filterRows}
                 >
                 {this.state.header.map((header, i) => (
                   <FilterTableHeader

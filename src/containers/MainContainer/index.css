@@ -3,6 +3,7 @@
   height: 100vh;
   box-sizing: border-box;
   overflow: auto;
+  background-color: #fdfdfd;
 }
 
 .controls-container__header {

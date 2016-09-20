@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import Modal from '../Modal';
+
 import './index.css';
 
 const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
@@ -55,7 +57,11 @@ class FilterTableImageCell extends React.Component {
     }
     return (
       <td value={value}>
-        <img width="100px" src={this.props.label} alt="Company's foundation"/>
+        <Modal
+          image={this.props.label}
+          imageDescription="Company's foundation">
+          open image
+        </Modal>
       </td>
     )
   }
@@ -101,6 +107,12 @@ const FilterTableRow = ({ row, columns}) => {
 };
 
 class FilterTable extends React.Component {
+
+  onSearchChange = (evt) => {
+    const search = evt.target.value;
+    this.props.filterRows(search);
+  }
+
   render () {
 
     const columnsValues = React.Children.map(this.props.children, ({ props }) => {
@@ -109,16 +121,21 @@ class FilterTable extends React.Component {
 
     return (
       <div className="filter-table-container">
-        <table className="filter-table">
-          <thead>
-            <tr>
-              {this.props.children}
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
-          </tbody>
-        </table>
+        <div className="filter-table__search">
+          <input type="text" placeholder="Type to search" onChange={this.onSearchChange} className="filter-table__search-field"/>
+        </div>
+        <div className="filter-table__content">
+          <table className="filter-table">
+            <thead>
+              <tr>
+                {this.props.children}
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
+            </tbody>
+          </table>
+      </div>
       </div>
     )
   }
@@ -126,6 +143,7 @@ class FilterTable extends React.Component {
 
 FilterTable.propTypes = {
   rows: PropTypes.array.isRequired,
+  filterRows: PropTypes.func.isRequired,
 };
 
 export default FilterTable;

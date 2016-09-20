@@ -4,8 +4,6 @@ import Modal from '../Modal';
 
 import './index.css';
 
-const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
-const siteRegex = /^http[s]?:\/\/.*$/g;
 
 export class FilterTableHeader extends React.Component {
 
@@ -40,7 +38,14 @@ export class FilterTableHeader extends React.Component {
     } = this.props;
     return (
       <th value={value} onClick={this.onHeaderClick}>
-        {label} {value === columnSorted && (orderingSorted === 'ASC' ? '▲' : '▼')}
+        <div className="filter-table__header">
+          <span>
+            {label}
+          </span>
+          <span>
+            {value === columnSorted && (orderingSorted === 'ASC' ? '▼' : '▲')}
+          </span>
+        </div>
       </th>
     );
   }
@@ -53,8 +58,24 @@ class FilterTableImageCell extends React.Component {
     error: false,
   }
 
-  componentDidMount() {
+  componentDidMount () {
+    this.loadImage(this.props.label);
+  }
+
+  componentWillUpdate (nextProps) {
+    if (nextProps.label !== this.props.label) {
+      this.loadImage(nextProps.label);
+    }
+  }
+
+  loadImage (source) {
     const image = new Image();
+
+    this.setState({
+      loading: true,
+      error: false,
+    });
+
     image.onerror = () => {
       this.setState({
         error: true,
@@ -64,13 +85,14 @@ class FilterTableImageCell extends React.Component {
     image.onload = () => {
       this.setState({
         loading: false,
+        error: false,
       });
     }
 
-    image.src = this.props.label;
+    image.src = source;
   }
 
-  render() {
+  render () {
     const { value } = this.props;
 
     if(this.state.loading) {
@@ -109,13 +131,15 @@ const FilterTableLinkCell = ({value, label}) => {
 };
 
 const FilterTableCell = ({value, label}) => {
-  if(imageRegex.exec(label)) {
-    imageRegex.exec('');
+
+  const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
+  const siteRegex = /^http[s]?:\/\/.*$/g;
+
+  if(imageRegex.test(label)) {
     return <FilterTableImageCell value={value} label={label}/>
   }
 
-  if(siteRegex.exec(label)) {
-    siteRegex.exec('');
+  if(siteRegex.test(label)) {
     return <FilterTableLinkCell value={value} label={label}/>
   }
 
@@ -154,9 +178,9 @@ class FilterTable extends React.Component {
 
     return (
       <div className="filter-table-container">
-        <div className="filter-table__search">
-          <input type="text" placeholder="Type to search" onChange={this.onSearchChange} className="filter-table__search-field"/>
-        </div>
+        <h2>
+          Founder's table
+        </h2>
         <div className="filter-table__content">
           <table className="filter-table">
             <thead>
@@ -165,6 +189,13 @@ class FilterTable extends React.Component {
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td colSpan={React.Children.count(this.props.children)}>
+                  <div className="filter-table__search">
+                    <input type="text" placeholder="Type to search" onChange={this.onSearchChange} className="filter-table__search-field"/>
+                  </div>
+                </td>
+              </tr>
               {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
             </tbody>
           </table>

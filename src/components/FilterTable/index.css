@@ -21,6 +21,12 @@
   text-transform: uppercase;
   font-size: 0.85em;
   text-align: left;
+}
+
+.filter-table__header {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
   padding: 0.2em;
 }
 

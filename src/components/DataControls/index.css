@@ -1,9 +1,11 @@
 .data-controls {
+  border-bottom: 2px solid #333;
 }
 
 .data-controls__header {
   display: flex;
   justify-content: space-between;
+  margin: 0;
 }
 
 .data-controls__options {
@@ -12,6 +14,7 @@
   color: #6e6e6e;
   line-height: 1.5em;
   flex-direction: column;
+  margin-top: 1em;
   margin-left: -0.5em;
 }
 

@@ -19,10 +19,13 @@
   border: 1px solid #383838;
   padding: 0.5em 1em;
   background: #e6e6e6;
-  font-size: 0.8em;
+  font-size: 0.9em;
+  font-weight: bold;
 }
 
 .button--reset {
-  border-color: #ff6060;
-  background: #ffc0c0;
+  border-color: transparent;
+  color: #fff;
+  background: #da0a0a;
+  float: right;
 }

@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import './index.css';
+
 const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
 const siteRegex = /^http[s]?:\/\/.*$/g;
 
@@ -14,7 +16,6 @@ class FilterTableImageCell extends React.Component {
   state = {
     loading: true,
     error: false,
-    source: '',
   }
 
   componentDidMount() {
@@ -28,7 +29,6 @@ class FilterTableImageCell extends React.Component {
     image.onload = () => {
       this.setState({
         loading: false,
-        source: this.props.label,
       });
     }
 
@@ -55,7 +55,7 @@ class FilterTableImageCell extends React.Component {
     }
     return (
       <td value={value}>
-        <img width="100px" src={this.state.source} alt="Company's foundation"/>
+        <img width="100px" src={this.props.label} alt="Company's foundation"/>
       </td>
     )
   }
@@ -108,16 +108,18 @@ class FilterTable extends React.Component {
     });
 
     return (
-      <table>
-        <thead>
-          <tr>
-            {this.props.children}
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
-        </tbody>
-      </table>
+      <div className="filter-table-container">
+        <table className="filter-table">
+          <thead>
+            <tr>
+              {this.props.children}
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
+          </tbody>
+        </table>
+      </div>
     )
   }
 }

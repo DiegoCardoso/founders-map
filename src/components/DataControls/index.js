@@ -20,42 +20,65 @@ const SelectControl = ({label, name, value, onChange, multi, columns}) => (
 );
 
 class DataControls extends React.Component {
+  state = {
+    isOpened: true,
+  }
+
+  toggleVisualizaion = (evt) => {
+    evt.preventDefault();
+    this.setState({
+      isOpened: !this.state.isOpened,
+    });
+  }
 
   render () {
     return (
       <div className="data-controls">
-        <h2>Please, associate the data</h2>
-        <div className="data-controls__options">
-          <SelectControl
-            label="Marker label"
-            name="marker-label"
-            value={this.props.markerLabel}
-            onChange={this.props.onLabelChange}
-            columns={this.props.columns}
-          />
-          <SelectControl
-            label="Latitude"
-            name="latitude"
-            value={this.props.latitude}
-            onChange={this.props.onLatitudeChange}
-            columns={this.props.columns}
-          />
-          <SelectControl
-            label="Longitude"
-            name="longitude"
-            value={this.props.longitude}
-            onChange={this.props.onLongitudeChange}
-            columns={this.props.columns}
-          />
-          <SelectControl
-            label="Geolocation"
-            name="geolocation"
-            value={this.props.geolocation}
-            onChange={this.props.onGeolocationChange}
-            multi={true}
-            columns={this.props.columns}
-          />
-        </div>
+        <h2 className="data-controls__header">Please, associate the data
+          <small className="data-controls__link">
+            <a href="#" onClick={this.toggleVisualizaion}>
+              {
+                this.state.isOpened
+                ? '-'
+                : '+'
+              }
+            </a>
+          </small>
+        </h2>
+        {
+          this.state.isOpened &&
+          <div className="data-controls__options">
+            <SelectControl
+              label="Marker label"
+              name="marker-label"
+              value={this.props.markerLabel}
+              onChange={this.props.onLabelChange}
+              columns={this.props.columns}
+            />
+            <SelectControl
+              label="Latitude"
+              name="latitude"
+              value={this.props.latitude}
+              onChange={this.props.onLatitudeChange}
+              columns={this.props.columns}
+            />
+            <SelectControl
+              label="Longitude"
+              name="longitude"
+              value={this.props.longitude}
+              onChange={this.props.onLongitudeChange}
+              columns={this.props.columns}
+            />
+            <SelectControl
+              label="Geolocation"
+              name="geolocation"
+              value={this.props.geolocation}
+              onChange={this.props.onGeolocationChange}
+              multi={true}
+              columns={this.props.columns}
+            />
+          </div>
+        }
       </div>
     )
   }

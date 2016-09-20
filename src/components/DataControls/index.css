@@ -1,6 +1,11 @@
 .data-controls {
 }
 
+.data-controls__header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .data-controls__options {
   display: flex;
   font-weight: lighter;
@@ -16,8 +21,29 @@
   margin-left: 0.5em;
 }
 
+.data-controls__link {
+  display: inline-block;
+  margin-left: 1em;
+  font-size: 0.8em;
+}
+
+.data-controls__link a {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  text-decoration: none;
+  color: #999;
+  font-weight: lighter;
+  height: 1.2em;
+  width: 1.2em;
+  border: 2px solid #999;
+  line-height: 1.1em;
+}
+
 .Select-control {
   border-radius: 0;
+  background-color: transparent;
 }
 
 @media screen and (min-width: 426px) {

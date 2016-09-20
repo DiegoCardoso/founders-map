@@ -24,7 +24,7 @@ class DataControls extends React.Component {
     isOpened: true,
   }
 
-  toggleVisualizaion = (evt) => {
+  toggleVisibility = (evt) => {
     evt.preventDefault();
     this.setState({
       isOpened: !this.state.isOpened,
@@ -36,7 +36,7 @@ class DataControls extends React.Component {
       <div className="data-controls">
         <h2 className="data-controls__header">Please, associate the data
           <small className="data-controls__link">
-            <a href="#" onClick={this.toggleVisualizaion}>
+            <a href="#" onClick={this.toggleVisibility}>
               {
                 this.state.isOpened
                 ? '-'

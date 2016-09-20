@@ -54,7 +54,7 @@ class FoundersForm extends React.Component {
       return line.split(separatorRegex.regex).reduce((company, detail, index) => {
         company[head[index].value] = detail;
         return company;
-      }, {});
+      }, { $rawContent: line });
     });
 
     if(companies.length === 0) {

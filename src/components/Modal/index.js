@@ -48,7 +48,12 @@ class Modal extends React.Component {
                 <button onClick={this.onCloseClick}>close</button>
               </div>
               <div className="modal-content">
-                {this.props.image && <img src={this.props.image} alt={this.props.imageDescription}/>}
+                {this.props.image && (
+                  <figure className="modal-content__image">
+                    <img src={this.props.image} alt={this.props.imageDescription}/>
+                    <figcaption>{this.props.imageDescription}</figcaption>
+                  </figure>
+                )}
               </div>
             </div>
           </div>

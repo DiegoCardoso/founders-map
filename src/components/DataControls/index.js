@@ -55,6 +55,7 @@ class DataControls extends React.Component {
               onChange={this.props.onLabelChange}
               columns={this.props.columns}
             />
+          <div className="data-controls__group">
             <SelectControl
               label="Latitude"
               name="latitude"
@@ -69,6 +70,7 @@ class DataControls extends React.Component {
               onChange={this.props.onLongitudeChange}
               columns={this.props.columns}
             />
+        </div>
             <SelectControl
               label="Geolocation"
               name="geolocation"

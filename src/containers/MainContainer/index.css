@@ -1,9 +1,25 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 769px) {
+  .main-container {
+    flex-direction: row;
+  }
+
+  .controls-container {
+    width: 40%;
+    max-width: 425px;
+  }
+}
+
 .controls-container {
   padding: 0.5em;
   height: 100vh;
   box-sizing: border-box;
   overflow: auto;
-  background-color: #fdfdfd;
+  background-color: #fafafa;
 }
 
 .controls-container__header {

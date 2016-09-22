@@ -18,11 +18,18 @@
   margin-left: -0.5em;
 }
 
+.data-controls__group {
+  display: flex;
+  flex: 2;
+  min-width: 50%;
+}
+
 .data-controls__option {
   flex: 1;
   margin-bottom: 0.5em;
   margin-left: 0.5em;
 }
+
 
 .data-controls__link {
   display: inline-block;
@@ -47,6 +54,8 @@
 .Select-control {
   border-radius: 0;
   background-color: transparent;
+  height: auto;
+  min-height: 36px;
 }
 
 @media screen and (min-width: 426px) {
@@ -64,5 +73,9 @@
   .data-controls__option + * {
     margin-left: 0.5em;
     margin-top: 0;
+  }
+
+  .data-controls__group {
+    margin-left: 0em;
   }
 }

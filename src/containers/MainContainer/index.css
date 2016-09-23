@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.map-container {
+  height: 100vh;
+  flex: 1;
+}
+
 @media screen and (min-width: 769px) {
   .main-container {
     flex-direction: row;

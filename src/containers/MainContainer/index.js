@@ -2,6 +2,9 @@ import React from 'react';
 
 import './index.css'
 
+import MapContainer from '../MapContainer';
+
+
 import FoundersForm from '../../components/FoundersForm';
 import DataControls from '../../components/DataControls';
 import FilterTable, { FilterTableHeader } from '../../components/FilterTable';
@@ -87,6 +90,43 @@ class MainContainer extends React.Component {
     });
   }
 
+  renderMap = () => {
+    if (this.state.companies.length === 0
+      || !((this.state.latitude && this.state.longitude)
+            || (this.state.geolocation && this.state.geolocation.length))
+        ) {
+      return (
+        <div>
+          Não
+        </div>
+      );
+    }
+
+    const companies = this.state.companies.map(company => {
+      let companyFormatted = {}
+      if (this.state.latitude && this.state.longitude) {
+        companyFormatted.position = {
+          lat: company[this.state.latitude.value],
+          lng: company[this.state.longitude.value],
+        };
+      }
+
+      if (this.state.geolocation) {
+        companyFormatted.address = this.state.geolocation.reduce((address, field) => {
+          return `${address}${company[field.value]}`;
+        }, '');
+      }
+
+      if (this.state.markerLabel) {
+        companyFormatted.label = company[this.state.markerLabel.value];
+      }
+
+      return companyFormatted;
+    });
+
+    return <MapContainer locations={companies}/>;
+  }
+
   render () {
     return (
       <div className="main-container">
@@ -126,7 +166,7 @@ class MainContainer extends React.Component {
           )}
         </div>
         <div className="map-container">
-
+          {this.renderMap()}
         </div>
       </div>
     );

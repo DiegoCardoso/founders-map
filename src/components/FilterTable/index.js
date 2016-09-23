@@ -130,6 +130,16 @@ const FilterTableLinkCell = ({value, label}) => {
   )
 };
 
+export class FilterTableControlHeader extends React.Component {
+  render () {
+    return (
+      <th>
+        {this.props.label}
+      </th>
+    )
+  }
+}
+
 const FilterTableCell = ({value, label}) => {
 
   const imageRegex = /^http[s]?:\/\/.*(\.(jpg|png|gif))$/g;
@@ -150,7 +160,7 @@ const FilterTableCell = ({value, label}) => {
   );
 };
 
-const FilterTableRow = ({ row, columns}) => {
+const FilterTableRow = ({ row, rowLine, columns, controlsColumns }) => {
   if (!columns || columns.length === 0) {
     return <tr></tr>;
   }
@@ -159,6 +169,15 @@ const FilterTableRow = ({ row, columns}) => {
       {columns.map((column, i) => (
         <FilterTableCell key={i} value={column} label={row[column]}/>
       ))}
+      {controlsColumns.map(({props}, i) => {
+        return (
+          <td key={i}>
+            <button onClick={e => props.onClick(row, rowLine)}>
+              {props.render(row)}
+            </button>
+          </td>
+        )
+      })}
     </tr>
   );
 };
@@ -175,6 +194,15 @@ class FilterTable extends React.Component {
     const columnsValues = React.Children.map(this.props.children, ({ props }) => {
       return props.value;
     });
+
+    const controlsColumns = React.Children.map(this.props.children, (child, index) => {
+      if (child.type === FilterTableControlHeader) {
+        return child;
+      }
+      return;
+    });
+
+    console.log(controlsColumns);
 
     return (
       <div className="filter-table-container">
@@ -196,7 +224,7 @@ class FilterTable extends React.Component {
                   </div>
                 </td>
               </tr>
-              {this.props.rows.map((row, i) => <FilterTableRow key={i} row={row} columns={columnsValues}/>)}
+              {this.props.rows.map((row, i) => <FilterTableRow key={i} rowLine={i} row={row} columns={columnsValues} controlsColumns={controlsColumns}/>)}
             </tbody>
           </table>
       </div>

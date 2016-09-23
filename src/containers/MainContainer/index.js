@@ -7,7 +7,7 @@ import MapContainer from '../MapContainer';
 
 import FoundersForm from '../../components/FoundersForm';
 import DataControls from '../../components/DataControls';
-import FilterTable, { FilterTableHeader } from '../../components/FilterTable';
+import FilterTable, { FilterTableHeader, FilterTableControlHeader } from '../../components/FilterTable';
 
 class MainContainer extends React.Component {
 
@@ -19,11 +19,15 @@ class MainContainer extends React.Component {
     longitude: null,
     geolocation: null,
     filteredCompanies: [],
+    searchQuery: '',
     columnSorted: null,
     orderingSorted: 'ASC',
   }
 
   onFoundersFormSubmit = (header, companies) => {
+    companies = companies.map(company => {
+      return Object.assign({}, company, { visible: true })
+    });
     this.setState({
       header,
       companies,
@@ -70,8 +74,27 @@ class MainContainer extends React.Component {
     });
 
     this.setState({
+      searchQuery: search,
       filteredCompanies,
     });
+  }
+
+  onHideShowClick = (row, rowLine) => {
+
+    const rowUpdated = Object.assign({}, row, { visible: !row.visible });
+    const companiesUpdated = [
+      ...this.state.companies.slice(0, rowLine),
+      rowUpdated,
+      ...this.state.companies.slice(rowLine + 1),
+    ];
+    console.log(companiesUpdated);
+    this.setState({
+      companies: companiesUpdated,
+    });
+
+    setTimeout(() => {
+      this.filterRows(this.state.searchQuery);
+    }, 0);
   }
 
   sortColumn = (columnSorted, orderingSorted) => {
@@ -84,6 +107,7 @@ class MainContainer extends React.Component {
     });
 
     this.setState({
+      companies: filteredCompanies,
       filteredCompanies,
       columnSorted,
       orderingSorted,
@@ -104,27 +128,29 @@ class MainContainer extends React.Component {
       );
     }
 
-    const companies = this.state.companies.map(company => {
-      let companyFormatted = {}
-      if (this.state.latitude && this.state.longitude) {
-        companyFormatted.position = {
-          lat: company[this.state.latitude.value],
-          lng: company[this.state.longitude.value],
-        };
-      }
+    const companies = this.state.companies
+      .filter(company => company.visible)
+      .map(company => {
+        let companyFormatted = {}
+        if (this.state.latitude && this.state.longitude) {
+          companyFormatted.position = {
+            lat: company[this.state.latitude.value],
+            lng: company[this.state.longitude.value],
+          };
+        }
 
-      if (this.state.geolocation) {
-        companyFormatted.address = this.state.geolocation.reduce((address, field) => {
-          return `${address}${company[field.value]}`;
-        }, '');
-      }
+        if (this.state.geolocation) {
+          companyFormatted.address = this.state.geolocation.reduce((address, field) => {
+            return `${address}${company[field.value]}`;
+          }, '');
+        }
 
-      if (this.state.markerLabel) {
-        companyFormatted.label = company[this.state.markerLabel.value];
-      }
+        if (this.state.markerLabel) {
+          companyFormatted.label = company[this.state.markerLabel.value];
+        }
 
-      return companyFormatted;
-    });
+        return companyFormatted;
+      });
 
     return <MapContainer locations={companies}/>;
   }
@@ -162,6 +188,13 @@ class MainContainer extends React.Component {
                     orderingSorted={this.state.orderingSorted}
                     />
                 ))}
+                <FilterTableControlHeader
+                  label="Show/hide"
+                  render={(row) => {
+                    return row.visible ? 'Hide' : 'Show';
+                  }}
+                  onClick={this.onHideShowClick}
+                />
               </FilterTable>
               <button type="button" onClick={this.onResetClick} className="button button--reset">Reset</button>
             </div>

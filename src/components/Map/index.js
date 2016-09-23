@@ -1,9 +1,14 @@
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 
+import { camelize } from '../../utils';
+
 import Marker from './Marker';
+import InfoWindow from './InfoWindow';
 
 class Map extends React.Component {
+
+  evtNames = ['click']
 
   state = {
     currentLocation: this.props.initialCenter,
@@ -27,6 +32,10 @@ class Map extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.positions === this.state.positions) {
+      return true;
+    }
+
     if (nextState.currentLocation === this.state.currentLocation) {
       return false;
     }
@@ -37,8 +46,12 @@ class Map extends React.Component {
   async populateMarkersPositions () {
     const { google } = this.props;
 
-    const positions = await Promise.all(React.Children.map(this.props.children, async c => {
+    let positions = await Promise.all(React.Children.map(this.props.children, async c => {
       const { position, address } = c.props;
+
+      if (c.type !== Marker) {
+        return null;
+      }
 
       if (position) {
         return new google.maps.LatLng(position.lat, position.lng);
@@ -46,6 +59,8 @@ class Map extends React.Component {
 
       return await this.getPositionFromAddress(google, address);
     }));
+
+    positions = positions.filter(pos => !!pos);
 
     const bounds = new google.maps.LatLngBounds();
 
@@ -78,7 +93,26 @@ class Map extends React.Component {
       this.setState({
         map: this.map,
       });
+
+      this.evtNames.forEach(event => this.map.addListener(event, this.handleEvent(event)))
     }
+  }
+
+  handleEvent = (event) => {
+    let timeout;
+    const handlerName = `on${camelize(event)}`;
+
+    return (e) => {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      timeout = setTimeout(() => {
+        if (this.props[handlerName]) {
+          this.props[handlerName](this.props, this.map, e);
+        }
+      }, 0);
+    };
   }
 
   recenterMap () {
@@ -124,7 +158,7 @@ class Map extends React.Component {
         address
       }, ([result]) => {
         if (!result || !result.geometry) {
-          reject();
+          return reject();
         }
         resolve(result.geometry.location);
       });
@@ -173,4 +207,4 @@ Map.defaultProps = {
 
 export default Map;
 
-export { Marker };
+export { Marker, InfoWindow };

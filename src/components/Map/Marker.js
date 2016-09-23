@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 
+import { camelize } from '../../utils';
+
 class Marker extends React.Component {
+  evtNames = ['click', 'onmouseover']
 
   componentDidUpdate (prevProps) {
 
@@ -38,6 +41,21 @@ class Marker extends React.Component {
     };
 
     this.marker = new google.maps.Marker(option);
+
+    this.evtNames.forEach(event => (
+      this.marker.addListener(event, this.handleEvent(event))
+    ));
+  }
+
+  handleEvent (event) {
+    return (e) => {
+
+      const evtName = `on${camelize(event)}`;
+
+      if (this.props[evtName]) {
+        this.props[evtName](this.props, this.marker, e);
+      }
+    };
   }
 
   render () {

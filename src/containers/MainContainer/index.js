@@ -97,7 +97,9 @@ class MainContainer extends React.Component {
         ) {
       return (
         <div>
-          Não
+          <h1>
+            The map will show here.
+          </h1>
         </div>
       );
     }

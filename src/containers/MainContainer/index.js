@@ -4,7 +4,6 @@ import './index.css'
 
 import MapContainer from '../MapContainer';
 
-
 import FoundersForm from '../../components/FoundersForm';
 import DataControls from '../../components/DataControls';
 import FilterTable, { FilterTableHeader, FilterTableControlHeader } from '../../components/FilterTable';
@@ -120,7 +119,7 @@ class MainContainer extends React.Component {
             || (this.state.geolocation && this.state.geolocation.length))
         ) {
       return (
-        <div>
+        <div className="no-map-available">
           <h1>
             The map will show here.
           </h1>

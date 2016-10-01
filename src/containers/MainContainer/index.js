@@ -86,14 +86,14 @@ class MainContainer extends React.Component {
       rowUpdated,
       ...this.state.companies.slice(rowLine + 1),
     ];
-    console.log(companiesUpdated);
+
     this.setState({
       companies: companiesUpdated,
     });
-
+    console.log('AFTER UPDATE',companiesUpdated);
     setTimeout(() => {
       this.filterRows(this.state.searchQuery);
-    }, 0);
+    }, 100);
   }
 
   sortColumn = (columnSorted, orderingSorted) => {

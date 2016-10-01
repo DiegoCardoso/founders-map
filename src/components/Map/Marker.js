@@ -6,10 +6,11 @@ class Marker extends React.Component {
   evtNames = ['click', 'onmouseover']
 
   componentDidUpdate (prevProps) {
-
+    console.log('POSITION:', this.props.position === prevProps.position, ' LABEL: ', this.props.label, ' ANT_LABEL: ', prevProps.label);
     if ((this.props.map !== prevProps.map) ||
       (this.props.position !== prevProps.position)) {
-      this.renderMarker();
+        console.log('RENDER MARKER', this.props.label);
+        this.renderMarker();
     }
   }
 
@@ -20,6 +21,7 @@ class Marker extends React.Component {
   }
 
   componentWillUnmount () {
+    console.log('UNMOUNT: ', this.props.label, this.marker);
     if (this.marker) {
       this.marker.setMap(null);
     }

@@ -22,6 +22,7 @@ class Map extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
+
     if (prevProps.google !== this.props.google) {
       this.loadMap();
     }
@@ -54,17 +55,18 @@ class Map extends React.Component {
       }
 
       if (position) {
-        return new google.maps.LatLng(position.lat, position.lng);
+        return {latlng: new google.maps.LatLng(position.lat, position.lng), $id: JSON.stringify(position)};
       }
 
-      return await this.getPositionFromAddress(google, address);
+      const latlng = await this.getPositionFromAddress(google, address);
+      return { latlng, $id: JSON.stringify(address) };
     }));
 
     positions = positions.filter(pos => !!pos);
 
     const bounds = new google.maps.LatLngBounds();
 
-    positions.forEach(position => bounds.extend(position));
+    positions.forEach(({latlng}) => bounds.extend(latlng));
 
     this.setState({
       positions,
@@ -136,11 +138,22 @@ class Map extends React.Component {
   renderChildren () {
     const { children } = this.props;
 
+
     if (!children || !this.state.map) {
       return;
     }
     return React.Children.map(children, (c, index) => {
-      const position = this.state.positions[index];
+
+      let position;
+
+      if (c.type === Marker) {
+        position = this.state.positions.find(position => {
+          const $id = c.props.position || c.props.address;
+          return position.$id === JSON.stringify($id);
+        });
+
+        position = position && position.latlng;
+      }
 
       return React.cloneElement(c, {
         position,

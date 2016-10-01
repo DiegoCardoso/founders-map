@@ -29,7 +29,7 @@ export class FilterTableHeader extends React.Component {
   }
 
   render () {
-    console.log('RENDERED');
+
     const {
       value,
       label,
@@ -201,8 +201,6 @@ class FilterTable extends React.Component {
       }
       return;
     });
-
-    console.log(controlsColumns);
 
     return (
       <div className="filter-table-container">

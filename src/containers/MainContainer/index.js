@@ -90,7 +90,7 @@ class MainContainer extends React.Component {
     this.setState({
       companies: companiesUpdated,
     });
-    console.log('AFTER UPDATE',companiesUpdated);
+    console.log('AFTER UPDATE', companiesUpdated);
     setTimeout(() => {
       this.filterRows(this.state.searchQuery);
     }, 100);
@@ -116,12 +116,12 @@ class MainContainer extends React.Component {
   renderMap = () => {
     if (this.state.companies.length === 0
       || !((this.state.latitude && this.state.longitude)
-            || (this.state.geolocation && this.state.geolocation.length))
-        ) {
+        || (this.state.geolocation && this.state.geolocation.length))
+    ) {
       return (
         <div className="no-map-available">
           <h1>
-            The map will show here.
+            The map will be shown here.
           </h1>
         </div>
       );
@@ -151,10 +151,10 @@ class MainContainer extends React.Component {
         return companyFormatted;
       });
 
-    return <MapContainer locations={companies}/>;
+    return <MapContainer locations={companies} />;
   }
 
-  render () {
+  render() {
     return (
       <div className="main-container">
         <div className="controls-container">
@@ -163,8 +163,8 @@ class MainContainer extends React.Component {
               Founder's Map
             </h1>
           </header>
-          { !this.state.header && <FoundersForm onFoundersFormSubmit={this.onFoundersFormSubmit}/>}
-          { this.state.header && (
+          {!this.state.header && <FoundersForm onFoundersFormSubmit={this.onFoundersFormSubmit} />}
+          {this.state.header && (
             <div>
               <DataControls
                 columns={this.state.header}
@@ -173,11 +173,11 @@ class MainContainer extends React.Component {
                 onLatitudeChange={this.onLatitudeChange}
                 onLongitudeChange={this.onLongitudeChange}
                 onGeolocationChange={this.onGeolocationChange}
-                />
+              />
               <FilterTable
                 rows={this.state.filteredCompanies}
                 filterRows={this.filterRows}
-                >
+              >
                 {this.state.header.map((header, i) => (
                   <FilterTableHeader
                     key={i}
@@ -185,7 +185,7 @@ class MainContainer extends React.Component {
                     sortColumn={this.sortColumn}
                     columnSorted={this.state.columnSorted}
                     orderingSorted={this.state.orderingSorted}
-                    />
+                  />
                 ))}
                 <FilterTableControlHeader
                   label="Show/hide"
